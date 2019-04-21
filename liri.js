@@ -148,14 +148,40 @@ function bandSearch(artist) {
    
 }//end bandSearch function
 
-function musicSearch() {
+function musicSearch(song) {
 //Artist
 //Song
 //Link to sample
 //Album
 //Default - "The Sign" by Ace of Base
 console.log("musicSearch " + input);
-}  
+  spotify.search({ type: "track", query: song }, function (err, data) {
+    if (err) {
+      return console.log(err);
+    }
+
+    if (typeof(data.tracks.items) == "string") {
+      return console.log("Empty data returned for " + song);
+    }
+
+    if (data.tracks.items.length) {
+      for (i=0; i < data.tracks.items.length; i++) {
+        console.log(" ");
+        console.log("Name: " + data.tracks.items[i].name)
+        for (j=0; j < data.tracks.items[j].artists.length; j++) {
+          console.log("Artist: " + data.tracks.items[i].artists[j].name)
+        }
+        console.log("Album: " + data.tracks.items[i].album.name)
+        console.log("Release: " + data.tracks.items[i].album.release_date)
+        console.log("Preview: " + data.tracks.items[i].preview_url)
+      } 
+    }
+    else {
+      console.log(song + " not found");
+      musicSearch("The Sign Ace of Base ");
+    }
+  })//end search 
+}//end musicSearch function  
 
 function movieSearch() {
 //Movie title
