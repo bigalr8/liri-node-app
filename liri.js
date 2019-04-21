@@ -183,7 +183,7 @@ console.log("musicSearch " + input);
   })//end search 
 }//end musicSearch function  
 
-function movieSearch() {
+function movieSearch(movieName) {
 //Movie title
 //Release year
 //Rating
@@ -194,6 +194,44 @@ function movieSearch() {
 //Actors
 //Default - "Mr. Nobody"
 console.log("movieSearch " + input);
+  var queryUrl = "http://www.omdbapi.com/?t=" + movieName + "&y=plot=short&apikey=trilogy";
+
+  axios.get(queryUrl).then(
+    function(response){
+      if ((typeof(response.data) !== "string") &&
+          (response.data.Response == "True")) {
+        console.log("Title:    " + response.data.Title);
+        console.log("Year:     " + response.data.Year);
+        console.log("Rated:    " + response.data.Rated);
+
+        for (i=0; i < response.data.Ratings.length; i++) {
+          if (response.data.Ratings[i].Source == 'Rotten Tomatoes'){
+            console.log(response.data.Ratings[i].Source + " Rating " + response.data.Ratings[i].Value)
+          }//end if 
+        }//end for
+        console.log("Country:  " + response.data.Country);
+        console.log("Language: " + response.data.Language);
+        console.log("Plot:     " + response.data.Plot);
+        console.log("Actors:   " + response.data.Actors);
+        console.log("Released: " + response.data.Released);
+        console.log("Runtime:  " + response.data.Runtime);
+        console.log("Genre:    " + response.data.Genre);
+        console.log("Director: " + response.data.Director);
+        console.log("Write:    " + response.data.Writer);
+      }//end if
+      else {
+        console.log("No data for " + movieName);
+      }
+    }//end function response
+  )//end .then
+  .catch(function (error) {
+    console.log(".catch error: " + error)
+    //console.log("error response status: " + error.response.status);
+    //console.log("error response data message: " + error.response.data.message);
+
+  })//end catch function
+ 
+
 }
 
 function doItSearch() {
