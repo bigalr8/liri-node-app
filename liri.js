@@ -7,7 +7,7 @@ var axios = require("axios");
 //dotenv loads enviroment variables from a .env file into the process.env
 //This stores configuration and access code inforation separate from code
 //It will be used in this app to conceal Spotify credentials
-var dotenv = require("dotenv");
+var dotenv = require("dotenv").config();
 //keys.js exports the Spotify credentials from the environment variables loaded for them by "dotenv"
 var keys = require("./keys.js");
 //node-spotify-api is the API liobrary for the Spotify REST API
@@ -32,7 +32,28 @@ var input = nodeArgs.slice (3).join(" ");
 //Feature operators
 //concert-this
 switch (doThis) {
-  
+  case "concert-this":
+    bandSearch(input)
+    break;
+
+  case "music-this":
+  case "spotify-this":
+  case "spotify-this-song":
+    musicSearch(input)
+    break;
+ 
+  case "movie-this":
+    movieSearch(input)
+    break;   
+
+  case "do-this":
+  case "do-what-it-says":
+    doItSearch(input)
+    break;
+
+  default:
+    //Missing operation and subject parameters 
+    console.log("Operations are 'concert-this', 'spotify-this-song', 'movie-this', and 'do-what-it-says'"); 
 }
 //music-this
 //movie-this
@@ -47,7 +68,8 @@ function bandSearch() {
 //Venue
 //Location
 //Date
-
+//Default - none
+console.log("bandSearch " + input);
   }
 
 function musicSearch() {
@@ -55,7 +77,8 @@ function musicSearch() {
 //Song
 //Link to sample
 //Album
-
+//Default - "The Sign" by Ace of Base
+console.log("musicSearch " + input);
 }  
 
 function movieSearch() {
@@ -67,9 +90,11 @@ function movieSearch() {
 //Language
 //Plot
 //Actors
+//Default - "Mr. Nobody"
+console.log("movieSearch " + input);
 }
 
 function doItSearch() {
 //Read operation and subject arguments for file and process just as command line
-
+console.log("doItSearch " + input);
 }
