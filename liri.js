@@ -20,9 +20,20 @@ var spotify = new Spotify(keys.spotify);
 
 //Variables 
 
-//Node arguments
-//feature operators
+//Node command line arguments array from the standard internal object
+nodeArgs = process.argv;
+//Operation argument (i.e. "concert-this", "movie-this", etc)
+doThis = nodeArgs[2];
+//Subject argument with artist, movie or song data is being requested for 
+//Parsed to take it from node command line argumants starting with the 4th element (i.e 0= node 1=code file 2=operation 3=start of subject)
+//and to join the elements from the resulting array into a string separated with spaces
+var input = nodeArgs.slice (3).join(" ");
+
+//Feature operators
 //concert-this
+switch (doThis) {
+  
+}
 //music-this
 //movie-this
 //do-this
@@ -32,3 +43,33 @@ var spotify = new Spotify(keys.spotify);
 
 
 //Functions
+function bandSearch() {
+//Venue
+//Location
+//Date
+
+  }
+
+function musicSearch() {
+//Artist
+//Song
+//Link to sample
+//Album
+
+}  
+
+function movieSearch() {
+//Movie title
+//Release year
+//Rating
+//Rotten Tomatoes ranking
+//Country
+//Language
+//Plot
+//Actors
+}
+
+function doItSearch() {
+//Read operation and subject arguments for file and process just as command line
+
+}
