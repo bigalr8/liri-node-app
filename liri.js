@@ -15,7 +15,7 @@ var Spotify = require ("node-spotify-api");
 //moment module will be used to format display dates and times
 var moment = require ("moment");
 //fs will be used for file system processing (.e. reading and writing to files)
-
+var fs = require("fs");
 //Create spotify client with the required credentials 
 var spotify = new Spotify(keys.spotify);
 
@@ -31,44 +31,42 @@ doThis = nodeArgs[2];
 var input = nodeArgs.slice (3).join(" ");
 
 //Feature operators
-//concert-this
-switch (doThis) {
-  case "concert-this":
-    bandSearch(input)
-    break;
+function doThisOperation () {
+  switch (doThis) {
+    case "concert-this":
+      bandSearch(input)
+      break;
 
-  case "music-this":
-  case "spotify-this":
-  case "spotify-this-song":
-    if (input == "") {
-      input = "The Sign Ace of Base"
-    }
-    musicSearch(input)
-    break;
- 
-  case "movie-this":
-  //Default when no subject provided 
-    if (input == "") {
-      input = "Mr. Nobody"
-    }
-    movieSearch(input)
-    break;   
+    case "music-this":
+    case "spotify-this":
+    case "spotify-this-song":
+      if (input == "") {
+        input = "The Sign Ace of Base"
+      }
+      musicSearch(input)
+      break;
+  
+    case "movie-this":
+    //Default when no subject provided 
+      if (input == "") {
+        input = "Mr. Nobody"
+      }
+      movieSearch(input)
+      break;   
 
-  case "do-this":
-  case "do-what-it-says":
-    doItSearch(input)
-    break;
+    case "do-this":
+    case "do-what-it-says":
+      doItSearch(input)
+      break;
 
-  default:
-    //Missing operation and subject parameters 
-    console.log("Operations are 'concert-this', 'spotify-this-song', 'movie-this', and 'do-what-it-says'"); 
-}
-//music-this
-//movie-this
-//do-this
-
+    default:
+      //Missing operation and subject parameters 
+      console.log("Operations are 'concert-this', 'spotify-this-song', 'movie-this', and 'do-what-it-says'"); 
+  }//end switch
+}//end doThisOperation
 
 //Function calls
+doThisOperation();
 
 
 //Functions
@@ -237,4 +235,23 @@ console.log("movieSearch " + input);
 function doItSearch() {
 //Read operation and subject arguments for file and process just as command line
 console.log("doItSearch " + input);
-}
+  fs.readFile("random.txt", "utf8", function(error, data) {
+    if (error){
+      return console.log(error);
+    }//end if
+
+    console.log("data: " + data);
+    var fileArgs = data.split(",");
+    console.log("fileArgs: " + fileArgs);
+
+    doThis = fileArgs[0];
+    input = fileArgs[1];
+
+    console.log("doThis: " + doThis);
+    console.log("input: " + input);
+    
+    doThisOperation();
+
+
+  })//end function 
+}//end function doItSearch
