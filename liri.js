@@ -13,6 +13,7 @@ var keys = require("./keys.js");
 //node-spotify-api is the API liobrary for the Spotify REST API
 var Spotify = require ("node-spotify-api");
 //moment module will be used to format display dates and times
+var moment = require ("moment");
 //fs will be used for file system processing (.e. reading and writing to files)
 
 //Create spotify client with the required credentials 
@@ -72,42 +73,67 @@ switch (doThis) {
 
 //Functions
 function bandSearch(artist) {
-//Venue
-//Location
-//Date
-//Default - none
+  //Venue
+  //Location
+  //Date
+  //Default - none
 
-//console.log("bandSearch " + input);
-if (artist == "") {
-  console.log("No artist(s) specified");
-  return;
-}
+  //console.log("bandSearch " + input);
+  if (artist == "") {
+    console.log("No artist(s) specified");
+    return;
+  }
 
-//Bands In Town web API using the Axios HTTP client
-//Bands In Town API Url
-var queryUrl = "https://rest.bandsintown.com/artists/" + artist + "/events?app_id=codingbootcamp";
+  //Bands In Town web API using the Axios HTTP client
+  //Bands In Town API Url
+  var queryUrl = "https://rest.bandsintown.com/artists/" + artist + "/events?app_id=codingbootcamp";
 
-//Axios promise "get" request
-axios.get(queryUrl)
-//Return promise handling for promise sucess
+  //Axios promise "get" request
+  axios.get(queryUrl)
+  //Return promise handling for promise sucess
   .then (function (response) {
+    //console.log(response);
     //console.log("response data" + response.data); 
     //console.log("response status" + response.status);
     
 
-  //API Warnings and search errors   
-    if ((response.data.trim() == "{warn=Not found}") || 
-    (response.data.trim()== "{error=An error occurred while searching.}")) {
-      console.log(".then response data: " + response.data.trim());
-      console.log("returning");
-      return;
-    }
+    //API Warnings and search errors 
+    //console.log(response.length);
+    //console.log(response.data.length);
+    //console.log(typeof(response.data));
 
+    //Instead of an object strings of "{warn=Not found}" or "{error=An error occurred while searching.}"  may be returned when search fails
+      if (typeof(response.data) == "string") { 
+        console.log(".then response data: " + response.data.trim());
+        console.log("returning");
+        return;
+      }
 
   //Loop thru returned array of 'data' 
+    
     for (i=0;i<response.data.length;i++) {
-      console.log("Venue: " + response.data[i].venue.name);
-      
+      console.log(" ");
+      if (typeof(response.data[i].lineup[0]) == "string") {
+        console.log(response.data[i].lineup[0]);
+      }
+      else {
+        //console.log(response.data[i].lineup.length)
+        //console.log(typeof(response.data[i].lineup[0]));
+        //console.log(response.data[i].lineup[0]);
+        for (j=0; j < response.data[j].lineup.length; j++) {
+          console.log(response.data[i].lineup[j]);
+        }
+      }
+      if (response.data[i].description !== "") {
+        console.log(response.data[i].description);
+      }
+      console.log("At the " + response.data[i].venue.name);
+      console.log(moment(response.data[i].datetime).format("MM-DD-YYYY")); 
+      if (response.data[i].venue.country == "United States") {
+        console.log(response.data[i].venue.city + ", " + response.data[i].venue.region )
+      }
+      else {console.log(response.data[i].venue.city)};
+      console.log(response.data[i].venue.country);
     }//end for  
     
   })//end then function
@@ -115,8 +141,8 @@ axios.get(queryUrl)
   //Handling for promise failure
   .catch(function (error) {
       console.log(".catch error: " + error)
-      console.log("error response status: " + error.response.status);
-      console.log("error response data message: " + error.response.data.message);
+      //console.log("error response status: " + error.response.status);
+      //console.log("error response data message: " + error.response.data.message);
 
   })//end catch function
    
