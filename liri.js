@@ -39,10 +39,17 @@ switch (doThis) {
   case "music-this":
   case "spotify-this":
   case "spotify-this-song":
+    if (input == "") {
+      input = "The Sign Ace of Base"
+    }
     musicSearch(input)
     break;
  
   case "movie-this":
+  //Default when no subject provided 
+    if (input == "") {
+      input = "Mr. Nobody"
+    }
     movieSearch(input)
     break;   
 
@@ -64,13 +71,56 @@ switch (doThis) {
 
 
 //Functions
-function bandSearch() {
+function bandSearch(artist) {
 //Venue
 //Location
 //Date
 //Default - none
-console.log("bandSearch " + input);
-  }
+
+//console.log("bandSearch " + input);
+if (artist == "") {
+  console.log("No artist(s) specified");
+  return;
+}
+
+//Bands In Town web API using the Axios HTTP client
+//Bands In Town API Url
+var queryUrl = "https://rest.bandsintown.com/artists/" + artist + "/events?app_id=codingbootcamp";
+
+//Axios promise "get" request
+axios.get(queryUrl)
+//Return promise handling for promise sucess
+  .then (function (response) {
+    //console.log("response data" + response.data); 
+    //console.log("response status" + response.status);
+    
+
+  //API Warnings and search errors   
+    if ((response.data.trim() == "{warn=Not found}") || 
+    (response.data.trim()== "{error=An error occurred while searching.}")) {
+      console.log(".then response data: " + response.data.trim());
+      console.log("returning");
+      return;
+    }
+
+
+  //Loop thru returned array of 'data' 
+    for (i=0;i<response.data.length;i++) {
+      console.log("Venue: " + response.data[i].venue.name);
+      
+    }//end for  
+    
+  })//end then function
+    
+  //Handling for promise failure
+  .catch(function (error) {
+      console.log(".catch error: " + error)
+      console.log("error response status: " + error.response.status);
+      console.log("error response data message: " + error.response.data.message);
+
+  })//end catch function
+   
+}//end bandSearch function
 
 function musicSearch() {
 //Artist
