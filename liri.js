@@ -19,6 +19,22 @@ var fs = require("fs");
 //Create spotify client with the required credentials 
 var spotify = new Spotify(keys.spotify);
 
+//Configure to log output to both file and console
+//Include util built-in package to format file output
+var util = require('util');
+//Open a writeable stream to "LIRI.log" in append mode vs write to append data to end of file
+var log_file = fs.createWriteStream(__dirname + '/LIRI.log', {flags : 'a'});
+
+//Assign the standard output stream  
+var log_stdout = process.stdout;
+
+//Set "console.log" function to use fs.write to use the writeable stream to write to the log file 
+//and to use process.stdout.write to write to the console
+console.log = function(d) { //
+  log_file.write(util.format(d) + '\n');
+  log_stdout.write(util.format(d) + '\n');
+};
+
 //Variables 
 
 //Node command line arguments array from the standard internal object
