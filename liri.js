@@ -36,7 +36,7 @@ function doThisOperation () {
     case "concert-this":
       bandSearch(input)
       break;
-
+//Alternatives for spotify operations
     case "music-this":
     case "spotify-this":
     case "spotify-this-song":
@@ -53,7 +53,7 @@ function doThisOperation () {
       }
       movieSearch(input)
       break;   
-
+//Alternative for file input operation
     case "do-this":
     case "do-what-it-says":
       doItSearch(input)
@@ -100,7 +100,7 @@ function bandSearch(artist) {
     //console.log(response.data.length);
     //console.log(typeof(response.data));
 
-    //Instead of an object strings of "{warn=Not found}" or "{error=An error occurred while searching.}"  may be returned when search fails
+    //Instead of an object, strings of "{warn=Not found}" or "{error=An error occurred while searching.}"  may be returned when search fails
       if (typeof(response.data) == "string") { 
         console.log(".then response data: " + response.data.trim());
         console.log("returning");
@@ -157,14 +157,15 @@ console.log("musicSearch " + input);
     if (err) {
       return console.log(err);
     }
-
+   //Instead of an object, strings of "{warn=Not found}" or "{error=An error occurred while searching.}"  may be returned when search fails
     if (typeof(data.tracks.items) == "string") {
       return console.log("Empty data returned for " + song);
     }
-
+    //Ensure that song track data is returned
     if (data.tracks.items.length) {
       for (i=0; i < data.tracks.items.length; i++) {
         console.log(" ");
+        //Handling for possible multiple artists
         console.log("Name: " + data.tracks.items[i].name)
         for (j=0; j < data.tracks.items[j].artists.length; j++) {
           console.log("Artist: " + data.tracks.items[i].artists[j].name)
@@ -175,6 +176,7 @@ console.log("musicSearch " + input);
       } 
     }
     else {
+    //Report when no song track data returned and use required default
       console.log(song + " not found");
       musicSearch("The Sign Ace of Base ");
     }
@@ -196,12 +198,13 @@ console.log("movieSearch " + input);
 
   axios.get(queryUrl).then(
     function(response){
+      //Ensure response is data object with success indicator
       if ((typeof(response.data) !== "string") &&
           (response.data.Response == "True")) {
         console.log("Title:    " + response.data.Title);
         console.log("Year:     " + response.data.Year);
         console.log("Rated:    " + response.data.Rated);
-
+        //search through array of critic scores for required 'Rotten Tomatoes' score
         for (i=0; i < response.data.Ratings.length; i++) {
           if (response.data.Ratings[i].Source == 'Rotten Tomatoes'){
             console.log(response.data.Ratings[i].Source + " Rating " + response.data.Ratings[i].Value)
@@ -222,6 +225,7 @@ console.log("movieSearch " + input);
       }
     }//end function response
   )//end .then
+   //Handling for promise failure
   .catch(function (error) {
     console.log(".catch error: " + error)
     //console.log("error response status: " + error.response.status);
@@ -233,23 +237,25 @@ console.log("movieSearch " + input);
 }
 
 function doItSearch() {
-//Read operation and subject arguments for file and process just as command line
-console.log("doItSearch " + input);
+//Read operation and subject arguments from file and process same as command line arguments
+console.log("doItSearch ");
   fs.readFile("random.txt", "utf8", function(error, data) {
     if (error){
       return console.log(error);
     }//end if
 
     console.log("data: " + data);
+    //split the operation and subject arguments into an array;
     var fileArgs = data.split(",");
     console.log("fileArgs: " + fileArgs);
 
+    //pull operation and subject arguments into separate strings
     doThis = fileArgs[0];
     input = fileArgs[1];
 
     console.log("doThis: " + doThis);
     console.log("input: " + input);
-    
+    //call main function which performs appropriate operation based on arguments from file
     doThisOperation();
 
 
