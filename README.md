@@ -20,10 +20,7 @@ The app will also log output to both a file (LIRI.log) and to the console.
 
 ## Components
 * `keys.js` - Contains the code to export the Spotify credentials from the environment variables which were loaded by the "dotenv" package  
-* `LIRI recording URL.txt` - Contains the URL of the screentastify recording of the app running for each operation and default,
- with the output being streamed to the console.   
 * `liri.js` - Contains the Node.JS javascript code for the app.  
-*  
 * `node_modules/` - Contains the node packages used by the app   
 * `package.json` - Contains manifest data about the external package used by the app as well the urls for the git repo and issue list for the app    
 * `package-lock.json` - Contains version and location information for every module from every external package used by the app   
@@ -49,14 +46,14 @@ _Since this app does not use web pages it must be run from a console as follows:
 node liri.js operation-arg subject-arg
 ``` 
 
-_Where operation-arg is one of:_
+Where ***operation-arg*** is one of:
 
-* "concert-this" for Bands In Town API data on the specified subject
-* "spotify-this-song" for node-spotify-api Spotify API data on the specified subject <sup>1</sup>
-* "movie-this" for OMDB APi data on the specified subject <sup>2</sup>
-* "do-what-it-says" to obtain operation and subject arguments from a 'random.txt' file
+* ***"concert-this"*** - for upcoming events from Bands In Town API data on the specified subject
+* ***"spotify-this-song"*** - for song track data from the node-spotify-api Spotify API on the specified subject <sup>1</sup>
+* ***"movie-this"*** - for movie data from the OMDB APi on the specified subject <sup>2</sup>
+* ***"do-what-it-says"*** - to perfrom any of the operations above using the operation and subject arguments from the `random.txt` file
 
-The subject-arg is _the name of the concert artist or group, the name of a published song, or the the name of a movie_, respectively.
+The ***subject-arg*** is the ***name of the concert artist or group, the name of a published song, or the name of a movie***, respectively.
 
 <sup>1</sup> If no subject is provided with the "spotify-this-song" operation the app will default to the song "The Sign" by Ace of Base. 
 
@@ -64,8 +61,8 @@ The subject-arg is _the name of the concert artist or group, the name of a publi
 
 
 ## Artifacts
-* github repo: `bigalr8/liri-node-app`
-* Screen results recording: `https://drive.google.com/file/d/1i9Km-fLEjHbV9rsVe6YDUnKU_8Cvy5hN/view`
+* `bigalr8/liri-node-app` - github repo
+* `https://drive.google.com/file/d/1i9Km-fLEjHbV9rsVe6YDUnKU_8Cvy5hN/view` - video recording of operations ans output
 * `LIRI.log` - Log file of output from the app for each operation    
 * `Capture concert-this.PNG` - Screen capture image of console output for "concert-this" operation     
 * `Capture movie-this.PNG` - Screen capture image of console output for "movie-this" operation    
